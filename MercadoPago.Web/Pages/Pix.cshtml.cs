@@ -50,7 +50,8 @@ namespace MercadoPago.Web.Pages
                     status = payment.Status,
                     ticketUrl = payment.PointOfInteraction.TransactionData.TicketUrl,
                     qrCode = payment.PointOfInteraction.TransactionData.QrCode,
-                    qrCodeBase64 = payment.PointOfInteraction.TransactionData.QrCodeBase64
+                    qrCodeBase64 = payment.PointOfInteraction.TransactionData.QrCodeBase64,
+                    notificationUrl = paymentRequest.NotificationUrl
                 });
             }
             catch (Exception ex)

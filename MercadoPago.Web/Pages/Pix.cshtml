@@ -36,7 +36,7 @@
 
     <div>
         <div>
-            <input type="hidden" name="transactionAmount" id="transactionAmount" value="0.1">
+            <input type="hidden" name="transactionAmount" id="transactionAmount" value="0.01">
             <input type="hidden" name="description" id="description" value="Nome do Produto">
             <br>
             <button type="submit">Pagar</button>
@@ -121,10 +121,12 @@
             });
 
             var jsonRes = await result.json();
-            console.log(jsonRes);
             var qrCodeBase64 = jsonRes.qrCodeBase64;
-            console.log(qrCodeBase64)
             document.getElementById('qrCode').src = `data:image/jpeg;base64,${qrCodeBase64}`;
+
+            alert(jsonRes.notificationUrl);
+            alert(jsonRes.ticketUrl);
+            window.location.href = jsonRes.ticketUrl;
         };
 
     </script>
