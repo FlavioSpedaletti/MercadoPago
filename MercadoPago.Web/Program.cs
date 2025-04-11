@@ -24,6 +24,6 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-//app.MapControllers();
+app.MapControllers();
 
 app.Run();
