@@ -1,21 +1,12 @@
-﻿//using MercadoPago.Client;
-//using MercadoPago.Client.Payment;
-//using MercadoPago.Config;
-//using MercadoPago.Resource.Payment;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MercadoPago.Controllers
+namespace MercadoPago.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class PagamentoController : Controller
+    public class WebhookController : Controller
     {
-        //public PagamentoController(IConfiguration configuration)
-        //{
-        //    MercadoPagoConfig.AccessToken = configuration.GetValue<string>("MercadoPago__AccessToken");
-        //}
-
-        //[HttpPost("CartaoCredito")]
-        //public async Task<IActionResult> CartaoCredito(PaymentCreateRequest paymentRequest)
+        //[HttpPost("Pix")]
+        //public async Task<IActionResult> Pix(string orderNumber)
         //{
         //    try
         //    {

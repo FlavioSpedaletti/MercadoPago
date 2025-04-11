@@ -4,11 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!--<UserSecretsId>fe6d670a-f87a-49a3-b63d-35b72854cf4c</UserSecretsId>-->
+    <UserSecretsId>fe6d670a-f87a-49a3-b63d-35b72854cf4c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="mercadopago-sdk" Version="2.4.2" />-->
+	  <PackageReference Include="mercadopago-sdk" Version="2.4.2" />
   </ItemGroup>
 
 </Project>

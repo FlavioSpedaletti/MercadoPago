@@ -1,5 +1,8 @@
 ﻿@page
-@model MercadoPago.Pages.PixModel
+@using MercadoPago.Web.Pages
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model MercadoPago.Web.Pages.PixModel
 @{
 }
 
@@ -7,6 +10,7 @@
 
 @* <form id="form-checkout" action="/process_payment" method="post"> *@
 <form id="form-checkout">
+    @Html.AntiForgeryToken()
     <div>
         <div>
             <label for="payerFirstName">Nome</label>
@@ -32,19 +36,21 @@
 
     <div>
         <div>
-            <input type="hidden" name="transactionAmount" id="transactionAmount" value="100">
+            <input type="hidden" name="transactionAmount" id="transactionAmount" value="0.1">
             <input type="hidden" name="description" id="description" value="Nome do Produto">
             <br>
             <button type="submit">Pagar</button>
         </div>
     </div>
+
+    <img id="qrCode" width="300" />
 </form>
 
 @section Scripts
 {
     <script>
-        
-        const mp = new MercadoPago("TEST-dd538ef8-68d2-49b1-b6a3-3669da3993b5");
+
+        const mp = new MercadoPago("@Model.PublicKey");
 
         (async function getIdentificationTypes() {
           try {
@@ -78,7 +84,7 @@
           elem.appendChild(tempOptions);
         }
 
-        document.getElementById('form-checkout').onsubmit = function(event) {
+        document.getElementById('form-checkout').onsubmit = async function(event) {
             event.preventDefault();
 
             let amount = document.getElementById('transactionAmount').value;
@@ -89,10 +95,14 @@
             let identificationType = document.getElementById('form-checkout__identificationType').value;
             let identificationNumber = document.getElementById('form-checkout__identificationNumber').value;
 
-            fetch("https://localhost:7099/api/pagamento/pix", {
+            const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            // var result = await fetch("https://localhost:7099/api/pagamento/pix", {
+             var result = await fetch("?handler=Pix", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': antiForgeryToken
                 },
                 body: JSON.stringify({
                     transactionAmount: Number(amount),
@@ -106,9 +116,15 @@
                             type: identificationType,
                             number: identificationNumber,
                         },
-                    },
+                    }
                 }),
             });
+
+            var jsonRes = await result.json();
+            console.log(jsonRes);
+            var qrCodeBase64 = jsonRes.qrCodeBase64;
+            console.log(qrCodeBase64)
+            document.getElementById('qrCode').src = `data:image/jpeg;base64,${qrCodeBase64}`;
         };
 
     </script>

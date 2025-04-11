@@ -1,5 +1,6 @@
 ﻿@page
-@model MercadoPago.Pages.CartaoCreditoModel
+@using MercadoPago.Web.Pages
+@model MercadoPago.Web.Pages.CartaoCreditoModel
 @{
 }
 
@@ -25,6 +26,7 @@
 <h1>Cartão de crédito</h1>
 
 <form id="form-checkout">
+    @Html.AntiForgeryToken()
     Valor: @* <input type="text" id="form-checkout__amount" />
     <br /> *@
     Número Cartão: <div id="form-checkout__cardNumber" class="container"></div>
@@ -45,10 +47,10 @@
 {
     <script>
 
-        const mp = new MercadoPago("TEST-dd538ef8-68d2-49b1-b6a3-3669da3993b5");
+        const mp = new MercadoPago("@Model.PublicKey");
 
         const cardForm = mp.cardForm({
-          amount: "100.5",
+          amount: "0.1",
           iframe: true,
           form: {
             id: "form-checkout",
@@ -110,10 +112,14 @@
                 identificationType,
               } = cardForm.getCardFormData();
 
-              fetch("https://localhost:7099/api/pagamento/cartaoCredito", {
+              const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+              //fetch("https://localhost:7099/api/pagamento/cartaoCredito", {
+              fetch("?handler=CartaoCredito", {
                 method: "POST",
                 headers: {
-                  "Content-Type": "application/json",
+                  'Content-Type': 'application/json',
+                  'RequestVerificationToken': antiForgeryToken
                 },
                 body: JSON.stringify({
                   token,

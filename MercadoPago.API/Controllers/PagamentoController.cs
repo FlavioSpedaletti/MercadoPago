@@ -45,7 +45,13 @@ namespace MercadoPago.Controllers
                 var client = new PaymentClient();
                 Payment payment = await client.CreateAsync(paymentRequest, requestOptions);
 
-                return Ok(payment.Status);
+                return Ok(new
+                {
+                    status = payment.Status,
+                    ticketUrl = payment.PointOfInteraction.TransactionData.TicketUrl,
+                    qrCode = payment.PointOfInteraction.TransactionData.QrCode,
+                    qrCodeBase64 = payment.PointOfInteraction.TransactionData.QrCodeBase64
+                });
             }
             catch (Exception ex)
             {
