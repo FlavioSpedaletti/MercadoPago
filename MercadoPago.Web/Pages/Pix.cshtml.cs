@@ -39,7 +39,8 @@ namespace MercadoPago.Web.Pages
                     values: new { orderumber = orderNumber },
                     protocol: Request.Scheme
                 );
-                paymentRequest.NotificationUrl = notificationUrl;
+                //paymentRequest.NotificationUrl = notificationUrl;
+                paymentRequest.NotificationUrl = "https://webhook.site/4a03afdc-1b88-4536-ac02-81dad805f732";
 
                 var client = new PaymentClient();
                 Payment payment = await client.CreateAsync(paymentRequest, requestOptions);
@@ -47,6 +48,7 @@ namespace MercadoPago.Web.Pages
                 return new JsonResult(new
                 {
                     succes = true,
+                    id = payment.Id,
                     status = payment.Status,
                     ticketUrl = payment.PointOfInteraction.TransactionData.TicketUrl,
                     qrCode = payment.PointOfInteraction.TransactionData.QrCode,

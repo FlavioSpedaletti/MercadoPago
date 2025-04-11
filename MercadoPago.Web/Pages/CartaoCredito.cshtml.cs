@@ -39,6 +39,7 @@ namespace MercadoPago.Web.Pages
                 return new JsonResult(new
                 {
                     succes = true,
+                    id = payment.Id,
                     status = payment.Status,
                 });
             }
